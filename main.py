@@ -31,7 +31,7 @@ current = set()
 #defs
 
 def get_cb():
-    return Tk().clipboard_get()
+    return pyperclip.paste()
 
 def copy():
     with open("//fritz.nas/FRITZ.NAS/HDD/Share/AMG/cb.txt", "w") as ncb:
@@ -43,7 +43,6 @@ def paste():
         nct = ncb.read()
 
     pyperclip.copy(nct)
-    pyperclip.paste()
 
     print(nct)
 
@@ -78,6 +77,6 @@ try:
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()
 except:
-    with open("//fritz.nas/FRITZ.NAS/HDD/Share/AMG/fails.log", "a") as log:
+    with open("//fritz.nas/FRITZ.NAS/HDD/Share/AMG/fails.log", "w") as log:
         log.write("failed at " + str(time.strftime('%X %x %Z')))
         os.execl(sys.executable, sys.executable, *sys.argv)
