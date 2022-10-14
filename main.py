@@ -1,5 +1,7 @@
+import datetime
 from tkinter import Tk
 from pynput import keyboard
+import time
 
 
 #setup
@@ -35,9 +37,9 @@ def copy():
     print(ct)
 def paste():
     with open("//fritz.nas/FRITZ.NAS/HDD/Share/AMG/cb.txt", "r") as ncb:
-        ct = ncb.read()
-    Tk().clipboard_append(ct)
-    print(ct)
+        nct = ncb.read()
+    Tk().clipboard_append(nct)
+    print(nct)
 def execute(wk):
     if wk == "cp":
         copy()
@@ -49,14 +51,12 @@ def on_press(key):
         current.add(key)
         if any(all(k in current for k in COMBO) for COMBO in cp):
             print("c")
-            cpp = True
             execute("cp")
 
     if any([key in VOMBO for VOMBO in vp]):
         current.add(key)
         if any(all(j in current for j in VOMBO) for VOMBO in vp):
             print("v")
-            vpp = True
             execute("vp")
 
 def on_release(key):
@@ -66,7 +66,10 @@ def on_release(key):
 
 #main
 
-
-with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-    listener.join()
-
+while True:
+    try:
+        with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+            listener.join()
+    except:
+        with open("//fritz.nas/FRITZ.NAS/HDD/Share/AMG/fails.log", "w") as log:
+            log.write("failed at " + datetime.datetime.now())
